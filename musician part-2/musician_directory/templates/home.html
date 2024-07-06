@@ -1,0 +1,52 @@
+<!-- musician/templates/musician/musician_list.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+{% if request.user.is_authenticated %}
+<p class="box-bordar "style="margin-left:30px">
+  <a href="{% url 'password_reset' %}" class="btn btn-outline-dark">Change Password With Old Password</a>
+  <a href="{% url 'reset_password' %}" class="btn btn-outline-dark">Change Password Without Old Password</a>
+</p>
+{% endif %}
+<div class="container d-flex flex-column align-items-center" style="min-height: 50vh; justify-content: center;">
+    <h1 style="margin-bottom: 20px;">Musica Page</h1>
+    <table class="table table-bordered table-success table-striped" style="width: 85%;">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Musician Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Album Rating</th>
+                <th scope="col">Instrument Type</th>
+                <th scope="col">Album Name</th>
+                <th scope="col">Release Date</th>
+                {% if request.user.is_authenticated %}
+                <th scope="col">Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for musician in data %}
+                {% for album in musician.albums.all %}
+                    <tr>
+                        <th scope="row">{{ musician.id }}</th>
+                        <td><a href="{% url 'edit_musician' musician.id %}" style="text-decoration: none;">{{ musician.first_name }} {{ musician.last_name }}</a></td>
+                        <td>{{ musician.email }}</td>
+                        <td>{{ album.rating }}</td>
+                        <td>{{ musician.instrument_type }}</td>
+                        <td>{{ album.album_name }}</td>
+                        <td>{{ album.release_date }}</td>
+                        {% if request.user.is_authenticated %}
+                        <td>
+                            <a href="{% url 'edit_album' album.id %}" class="btn btn-warning">Edit</a>
+                            <a href="{% url 'delete_musician' musician.id %}" class="btn btn-danger">Delete</a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
