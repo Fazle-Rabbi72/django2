@@ -1,0 +1,68 @@
+{% extends 'base.html' %}{% load static %}
+{% block content %}
+<div class=' about position-relative'>
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img class='img-fluid w-100 height'style="height: 400px;;" src="{% static 'car3.jpg' %}" alt="Car image" />
+          </div>
+          <div class="carousel-item">
+            <img class='img-fluid w-100 height'style="height: 400px;;" src="{% static 'car4.jpg' %}" alt="Car image" />
+          </div>
+          <div class="carousel-item">
+            <img class='img-fluid w-100 height'style="height: 400px;;" src="{% static 'car5.jpg' %}" alt="Car image" />
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    <div class="position-absolute top-50 start-50 translate-middle text-center text-white" style="background: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 10px;">
+        <h1>Welcome To Car Bzar</h1>
+        <p>For unparalleled customer service and an exceptional selection of vehicles, trust the experts at Impel. As a proud family-owned dealership serving customers since 1981, we offer an unmatched shopping experience. At Impel, you'll discover everything you need for a superior car-buying journey. Enjoy a stress-free environment, transparent pricing, an on-site service department, and an impressive array of new, used, and certified pre-owned vehicles. Our commitment to excellence ensures that your satisfaction is our top priority. Experience the difference with Impel, where your perfect vehicle awaits.</p>
+    </div>
+</div>
+
+<h1 class="text-center my-5">Brands</h1>
+<div class="w-50 mx-auto">
+    <div class="w-100 d-flex justify-content-center btn-group">
+        {% for brand in brands %}
+        <a class="btn btn-warning  mx-3" href="{% url 'brand_slug' brand.slug %}">
+            {{brand.name}}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<h1 class='p-4 mt-5 text-center'>
+    Number of Cars: {{cars|length}}
+</h1>
+<div class="container">
+    <div class="row justify-content-center px-3 pb-3 gap-4">
+        {% for car in cars %}
+        <div class="card col-md-3">
+            <img src="{{car.image.url}}" class="card-img-top" alt="{{car.title}}">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-end">
+                    <h3 class="card-title">{{car.name}}</h3>
+                    <h6 class="card-title text-danger">${{car.price}}</h6>
+                </div>
+                <button class="btn btn-outline-warning btn-sm my-3"><b>BRAND: {{car.brand}}</b></button>
+                <p class="card-text">{{car.description|truncatewords:10}}...</p>
+                <a href="{% url 'car_details' car.id %}" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

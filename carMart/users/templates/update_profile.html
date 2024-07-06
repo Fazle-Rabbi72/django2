@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="w-50 m-auto">
+    {% if messages %}
+    {% for m in messages %}
+    <p {% if m.tags %} class="{{m.tags}} pb-1" {% endif %}> <b>{{m}}</b> </p>
+    {% endfor %}
+    {% endif %}
+
+    <h1>Update Your Profile</h1>
+    <form method="post" class="p-5 rounded shadow-lg" style="background: linear-gradient(135deg, #6f42c1, #e83e8c); color: #fff;">
+        {% csrf_token %}
+        <!-- {{ form|crispy }} -->
+        {% for f in form %}
+        {{ f.label_tag }}
+        {{ f }}
+        <small class="text-danger"><b>{{ f.errors|striptags }}</b></small>
+        <br>
+        {% endfor %}
+        <a href="{% url 'password_reset' %}" class="btn btn-outline-dark">Change Password With Old Password</a>
+        <a href="{% url 'reset_password' %}" class="btn btn-outline-dark">Change Password Without Old Password</a>
+        <br>
+        <br>
+        <p class="text-center"><button type="submit" class="btn btn-success w-50 py-2">Update Profile</button></p>
+    </form>
+    <br>
+</div>
+{% endblock %}

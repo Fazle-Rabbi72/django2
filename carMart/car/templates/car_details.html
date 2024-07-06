@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="w-50 m-auto">
+    <div class=' single-item'>
+        <div div class="single-item-container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center">
+                <img class='w-75  rounded ' src="{{ car.image.url }}" alt="" />
+            </div>
+            <div class="px-5">
+                <h2 class="text font pt-2">{{car.name}}</h2>
+                <div class='d-flex justify-content-around align-items-center '>
+
+                    <span class='mt-2'>
+                        <span class='text'><b>Name</b></span><br />
+                        <span class='text'><b>Brand</b></span><br />
+                        <span class='text'><b>Color</b></span>
+                    </span>
+                    <span class=''>
+                        <span>-</span><br />
+                        <span>-</span><br />
+                        <span>-</span>
+                    </span>
+                    <span class='text'>
+                        <span class=''>{{car.name}}</span><br />
+                        <span class=''>{{car.brand.name}}</span><br />
+                        <span class=''>{{car.color}}</span>
+                    </span>
+
+                </div>
+                <p class="line  mt-4"><b>Price : $</b>{{car.price}}</p>
+                <p class="line "><b>Quantity :</b> {{car.quantity}}</p>
+                <p class="line "><b>Description :</b> {{car.description}}</p>
+                <form action="{% url 'create_order' car.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="mb-3 btn btn-dark">Buy Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="w-75 m-auto">
+
+    <div class="card m-2">
+        <h5 class="p-3">Total Comments : {{comments|length}}</h5>
+        {% for comment in comments %}
+        <div class="card-body border m-2">
+            <p class="px-3"><b>{{comment.name}}</b> {{comment.created_on}}</p>
+            <p class="px-3">{{comment.body}}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="card m-2">
+        <div class="card-body">
+            <form method="post">
+                <h1>Add Comment</h1>
+                {% csrf_token %} {{comment_form|crispy}}
+                <button class="btn btn-dark">Comment</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

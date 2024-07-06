@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="w-50 m-auto">
+
+    <!-- {% if messages %}
+    {% for message in messages %}
+    <p class="text-success text-center pb-1"><small><b>{{message}}</b></small></p>
+    {% endfor %}
+    {% endif %} -->
+
+    {% if form.non_field_errors %}
+    {% for er in form.non_field_errors %}
+    <p class="text-danger text-center pb-1"><small><b>{{er}}</b></small></p>
+    {% endfor %}
+    {% endif %}
+
+    {% load crispy_forms_tags %}
+    <h1 class="text-center">{{type}} Form</h1>
+    <form method="post" novalidate class="p-5 rounded shadow-lg" style="background: linear-gradient(135deg, #6f42c1, #e83e8c); color: #fff;">
+        {% csrf_token %}
+        <!-- {{form|crispy}} -->
+        {% for fm in form %}
+        {{ fm.label_tag }}
+        {{ fm }}
+        <small class="text-danger">
+            <b>{{ fm.errors|striptags }}</b>
+        </small>
+        <br>
+        {% endfor %}
+
+        <p class="text-center"><button class="btn btn-success w-50 py-2" type="submit">{{type}}</button></p>
+        <p class="text-center "><small>Already have an accoun <a class="text-dark" href="{% url "signin" %}">Login</a></small></p>
+    </form>
+
+</div>
+{% endblock %}
